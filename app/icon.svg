@@ -1,0 +1,10 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
+  <rect width="64" height="64" fill="#1a1a2e"/>
+
+  <!-- First D - White -->
+  <text x="10" y="46" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#ffffff">D</text>
+
+  <!-- Second D - Red -->
+  <text x="34" y="46" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#ef4444">D</text>
+</svg>
