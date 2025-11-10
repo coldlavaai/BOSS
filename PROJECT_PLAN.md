@@ -43,16 +43,17 @@ Each morning session is 2 hours with a clear, achievable goal.
 
 ---
 
-#### Session 2: Auth + Basic Layout (2h)
+#### Session 2: Auth + Basic Layout (2h) ✅ COMPLETE
 **Goal:** Login works, basic dashboard exists
 
-- [ ] Set up Supabase Auth
-- [ ] Create login page
-- [ ] Create dashboard layout (sidebar + top nav)
-- [ ] Add Oliver + JJ as users
-- [ ] Mobile-first responsive navigation
+- [x] Set up Supabase Auth
+- [x] Create login page
+- [x] Create dashboard layout (sidebar + top nav)
+- [x] Add Oliver + JJ as users
+- [x] Mobile-first responsive navigation
 
-**Output:** Can log in, see empty dashboard
+**Output:** Login works, dashboard with sidebar ✅
+**Completed:** 2025-11-10 (20 minutes)
 
 ---
 
