@@ -1,9 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { DashboardWithNav } from '@/components/dashboard/DashboardWithNav'
-
-// Revalidate every 60 seconds for better performance
-export const revalidate = 60
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Users, FolderKanban, Clock, Target } from 'lucide-react'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -16,39 +14,90 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  // Fetch Google Calendar integration
-  const { data: googleIntegration } = await supabase
-    .from('google_calendar_integrations')
-    .select('calendar_name, calendar_id, last_sync_at, two_way_sync_enabled')
-    .eq('user_id', user.id)
-    .single()
+  // Fetch basic counts from BOSS tables
+  const { count: clientsCount } = await supabase
+    .from('clients')
+    .select('*', { count: 'exact', head: true })
 
-  // Fetch all jobs with related data for the dashboard
-  const { data: jobs } = await supabase
-    .from('jobs')
-    .select(`
-      *,
-      customer:customers(*),
-      car:cars(*),
-      service:services(*),
-      pipeline_stage:pipeline_stages(*)
-    `)
-    .order('booking_datetime', { ascending: true })
+  const { count: projectsCount } = await supabase
+    .from('projects')
+    .select('*', { count: 'exact', head: true })
 
-  // Use user metadata for display name
-  const displayName = user.user_metadata?.first_name || user.user_metadata?.full_name || 'Oliver'
+  const displayName = user.user_metadata?.first_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'there'
 
   return (
-    <div className="p-4 lg:p-8 bg-gray-50 min-h-full">
-      <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold" style={{ color: '#32373c' }}>Dashboard</h1>
-        <p className="text-sm lg:text-base text-gray-600 mt-1">Welcome back, {displayName}</p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
+        <p className="text-slate-600 mt-1">Welcome back, {displayName}!</p>
       </div>
 
-      <DashboardWithNav
-        jobs={jobs || []}
-        googleIntegration={googleIntegration}
-      />
+      {/* Stats Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-slate-600">
+              Total Clients
+            </CardTitle>
+            <Users className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{clientsCount || 0}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-slate-600">
+              Active Projects
+            </CardTitle>
+            <FolderKanban className="h-4 w-4 text-cyan-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{projectsCount || 0}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-slate-600">
+              Hours Logged
+            </CardTitle>
+            <Clock className="h-4 w-4 text-emerald-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-slate-500 mt-1">This week</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-slate-600">
+              Weekly Target
+            </CardTitle>
+            <Target className="h-4 w-4 text-orange-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">0%</div>
+            <p className="text-xs text-slate-500 mt-1">On track</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Session 1 Complete Message */}
+      <Card className="border-blue-200 bg-blue-50">
+        <CardHeader>
+          <CardTitle className="text-blue-900">Session 1 Complete!</CardTitle>
+        </CardHeader>
+        <CardContent className="text-blue-800">
+          <p>Database is set up and auth is working. You're logged in!</p>
+          <p className="text-sm mt-2 text-blue-600">
+            Next: Session 3 will add client management UI.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   )
 }

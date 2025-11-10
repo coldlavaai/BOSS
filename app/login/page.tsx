@@ -45,23 +45,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4">
-      <Card className="w-full max-w-md shadow-xl border-gray-700" style={{ backgroundColor: '#32373c' }}>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 p-4">
+      <Card className="w-full max-w-md shadow-2xl border-blue-800">
         <CardHeader className="space-y-4 pb-8">
-          <div className="flex justify-center">
-            <Image
-              src="/logo.png"
-              alt="Detail Dynamics"
-              width={300}
-              height={48}
-              priority
-              className="h-12 w-auto"
-            />
-          </div>
-          <div className="text-center">
-            <div className="text-sm font-medium tracking-wider uppercase text-gray-400">
-              CRM System
-            </div>
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              BOSS
+            </h1>
+            <p className="text-sm text-blue-300 font-medium tracking-wide">
+              Business Operating System Software
+            </p>
+            <p className="text-xs text-slate-400">
+              Cold Lava AI
+            </p>
           </div>
         </CardHeader>
         <CardContent>
@@ -71,12 +67,12 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="austin@detaildynamics.uk"
+                placeholder="oliver@coldlava.ai"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+                className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-400"
               />
             </div>
             <div className="space-y-2">
@@ -88,7 +84,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
-                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+                className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-400"
               />
             </div>
             {error && (
@@ -98,8 +94,7 @@ export default function LoginPage() {
             )}
             <Button
               type="submit"
-              className="w-full text-white font-medium transition-all hover:opacity-90"
-              style={{ backgroundColor: '#d52329' }}
+              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-medium transition-all"
               disabled={loading}
             >
               {loading ? 'Signing in...' : 'Sign In'}
